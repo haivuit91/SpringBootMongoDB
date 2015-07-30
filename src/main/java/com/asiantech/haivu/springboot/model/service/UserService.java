@@ -17,7 +17,7 @@ public interface UserService {
 	 * get user by email
 	 * 
 	 * @param email
-	 * @return user by email
+	 * @return user
 	 */
 	User getUserByEmail(String email);
 
@@ -30,11 +30,11 @@ public interface UserService {
 	User save(User user);
 
 	/**
-	 * delete user
+	 * delete user by email
 	 * 
-	 * @param id
-	 * @return true if delete user successfully
+	 * @param email
+	 * @return true if delete successfully
 	 */
-	boolean delete(int id);
+	boolean delete(String email);
 
 }

@@ -20,28 +20,6 @@ public class UserController {
 	private UserService userService;
 
 	/**
-	 * add new user
-	 * 
-	 * @param user
-	 * @return user if save successfully
-	 */
-	@RequestMapping(value = "save", method = RequestMethod.GET)
-	public User saveUser(@RequestBody User user) {
-		return userService.save(user);
-	}
-	
-	/**
-	 * add new user
-	 * 
-	 * @param user
-	 * @return user if save successfully
-	 */
-	@RequestMapping(value = "get-by-email", method = RequestMethod.GET)
-	public User getUserByEmail(@RequestParam("email") String email) {
-		return userService.getUserByEmail(email);
-	}
-
-	/**
 	 * get list users
 	 * 
 	 * @return list users
@@ -49,6 +27,40 @@ public class UserController {
 	@RequestMapping("list-user")
 	public List<User> getUsers() {
 		return userService.getUsers();
+	}
+	
+	/**
+	 * get user by email
+	 * 
+	 * @param email
+	 * @return user
+	 */
+	@RequestMapping(value = "get-by-email", method = RequestMethod.GET)
+	public User getUserByEmail(@RequestParam("email") String email) {
+		return userService.getUserByEmail(email);
+	}
+
+	/**
+	 * add new user
+	 * 
+	 * @param user
+	 * @return user if save successfully
+	 */
+	@RequestMapping(value = "save", method = RequestMethod.POST)
+	public User saveUser(@RequestBody User user) {
+		System.out.println(user.getEmail());
+		return userService.save(user);
+	}
+	
+	/**
+	 * delete user by email
+	 * 
+	 * @param id
+	 * @return true if delete successfully
+	 */
+	@RequestMapping(value = "delete", method = RequestMethod.DELETE)
+	public boolean deleteUser(@RequestParam("email") String email) {
+		return userService.delete(email);
 	}
 
 }

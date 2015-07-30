@@ -27,7 +27,7 @@ import com.asiantech.haivu.springboot.model.service.impl.UserServiceImpl;
 public class UserServiceTest {
 
 	@InjectMocks
-	private UserServiceImpl userServiceImpl;
+	private UserService userService = new UserServiceImpl();
 
 	@Mock
 	private UserRepository userRepository;
@@ -77,26 +77,26 @@ public class UserServiceTest {
 	
 	@Test
 	public void getUsers() {
-		List<User> users = userServiceImpl.getUsers();
+		List<User> users = userService.getUsers();
 		Assert.assertEquals(users.size(), 10);
 	}
 	
 	@Test
 	public void getUserByEmail() {
 		String email = "Email 1";
-		User user = userServiceImpl.getUserByEmail(email);
+		User user = userService.getUserByEmail(email);
 		Assert.assertTrue(user != null);
 	}
 	
 	@Test
 	public void save() {
-		userServiceImpl.save(new User("", "First name", "Last name", "Email", "Password"));
-		Assert.assertEquals(listDB.size(), 1);
+		User user = userService.save(new User("", "First name", "Last name", "Email", "Password"));
+		Assert.assertNotNull(user);
 	}
 	
 	@Test
 	public void delete() {
-		Assert.assertTrue(userServiceImpl.delete(1));
+		Assert.assertTrue(userService.delete("1"));
 	}
 
 }

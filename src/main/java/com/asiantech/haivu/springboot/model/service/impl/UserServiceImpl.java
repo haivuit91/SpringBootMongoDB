@@ -1,6 +1,5 @@
 package com.asiantech.haivu.springboot.model.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +20,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getUsers() {
-		List<User> users = new ArrayList<User>();
-		userRepository.findAll().forEach(user -> users.add(new User(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), "")));
+		List<User> users = userRepository.findAll();
+		users.forEach(user -> user.setPassword(""));
 		return users;
 	}
 
@@ -36,15 +35,21 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public User save(User user) {
-		//if (getUserByEmail(user.getEmail()) == null)
-			return userRepository.save(user);
-		//return null;
+		User us = getUserByEmail(user.getEmail());
+		if (us == null) {
+			userRepository.save(user);
+			user.setPassword("");
+		}
+		return user;
 	}
 
 	@Override
 	@Transactional
-	public boolean delete(int id) {
-		userRepository.delete(id);
+	public boolean delete(String email) {
+		User user = getUserByEmail(email);
+		if (user == null)
+			return false;
+		userRepository.delete(user);
 		return true;
 	}
 
